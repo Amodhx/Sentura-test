@@ -54,9 +54,9 @@ public class UserService {
                 }
             }
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error converting user to JSON", e);
+            throw new RuntimeException( e);
         } catch (IOException e) {
-            throw new RuntimeException("Error making HTTP request to Weavy API", e);
+            throw new RuntimeException(e);
         }
     }
     public UserDTO getUser(String userId, Boolean trashed) {
