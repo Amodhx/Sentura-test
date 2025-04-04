@@ -28,7 +28,7 @@ public class UserService {
 
 
     public UserDTO saveUser(UserDTO userDTO) {
-        String endpoint = weavyApiUrl + "/api/users";
+        String url = weavyApiUrl + "/api/users";
         try {
 
             String jsonBody = objectMapper.writeValueAsString(userDTO);
@@ -39,7 +39,7 @@ public class UserService {
             );
 
             Request request = new Request.Builder()
-                    .url(endpoint)
+                    .url(url)
                     .post(body)
                     .addHeader("Authorization", "Bearer " + weavyApiToken)
                     .addHeader("Content-Type", "application/json")
@@ -60,13 +60,13 @@ public class UserService {
         }
     }
     public UserDTO getUser(String userId, Boolean trashed) {
-        String endpoint = weavyApiUrl + "/api/users/" + userId;
+        String url = weavyApiUrl + "/api/users/" + userId;
         if (trashed != null) {
-            endpoint += "?trashed=" + trashed;
+            url += "?trashed=" + trashed;
         }
 
         Request request = new Request.Builder()
-                .url(endpoint)
+                .url(url)
                 .get()
                 .addHeader("Authorization", "Bearer " + weavyApiToken)
                 .build();
@@ -82,6 +82,23 @@ public class UserService {
             throw new RuntimeException("response to UserDTO", e);
         } catch (IOException e) {
             throw new RuntimeException("request to Weavy API", e);
+        }
+    }
+    public void deleteUser(String userId) {
+        String url = weavyApiUrl + "/api/users/" + userId+"/trash";
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(new byte[0]))
+                .addHeader("Authorization", "Bearer " + weavyApiToken)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new RuntimeException("Cant delete User" + response.message());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

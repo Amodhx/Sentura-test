@@ -30,19 +30,20 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PutMapping("/{user_id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable String user_id,
-                                              @RequestBody UserDTO userDTO){
-
-    }
-
-    @GetMapping
-    public ResponseEntity<Map<String,Object>> listUsers (@RequestParam Map<String,String> queryParams){
-
-    }
+//    @PutMapping("/{user_id}")
+//    public ResponseEntity<UserDTO> updateUser(@PathVariable String user_id,
+//                                              @RequestBody UserDTO userDTO){
+//
+//    }
+//
+//    @GetMapping
+//    public ResponseEntity<Map<String,Object>> listUsers (@RequestParam Map<String,String> queryParams){
+//
+//    }
 
     @DeleteMapping("/{user_id}")
     public ResponseEntity<Void> deleteUser(@PathVariable String user_id){
-
+        userService.deleteUser(user_id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
